@@ -144,6 +144,7 @@ const Recipe = () => {
               width: "100%",
             }}
           >
+            <div style={{ fontWeight: 600 }}>NUTRITIONAL FACT:</div>
             {nutritionFacts}
           </div>
         </div>
