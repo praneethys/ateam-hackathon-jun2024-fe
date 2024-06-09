@@ -35,7 +35,7 @@ const Recipe = () => {
   }, []);
 
   return (
-    <Card className="align-center">
+    <>
       <Flex align="center" justify="space-evenly">
         {recipeList.map((recipe: Recipe) => (
           <Card
@@ -54,7 +54,7 @@ const Recipe = () => {
           Generate Recipe
         </Button>
       </Flex>
-    </Card>
+    </>
   );
 };
 
