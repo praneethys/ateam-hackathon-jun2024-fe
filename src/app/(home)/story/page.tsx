@@ -2,37 +2,8 @@
 
 import Card from "antd/lib/card/Card";
 import { useEffect, useState } from "react";
-
-const Header = ({ children }: { children: any }) => {
-  return (
-    <div
-      style={{
-        width: "80%",
-        backgroundColor: "#D9D9D9",
-        margin: "auto",
-        padding: "16px 32px",
-        marginBottom: "8px",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-const Body = ({ children }: { children: any }) => {
-  return (
-    <div
-      style={{
-        width: "80%",
-        backgroundColor: "#D9D9D9",
-        margin: "auto",
-        padding: "16px 32px",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
+import { Body } from "@/components/body";
+import { Header } from "@/components/header";
 
 const Recipe = () => {
   const recipeId = "f6d46ae8-8c78-472b-9f88-c1713acb72c2";
