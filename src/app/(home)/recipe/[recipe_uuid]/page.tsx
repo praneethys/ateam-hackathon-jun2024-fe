@@ -1,7 +1,7 @@
 "use client";
 
 import CardComponent from "@/components/card";
-import { Button, Carousel, Col, Flex, Row } from "antd/lib";
+import { Button, Carousel, Col, Spin, Row } from "antd/lib";
 import Card from "antd/lib/card/Card";
 import Image from "antd/lib/image";
 import Title from "antd/es/typography/Title";
@@ -37,13 +37,17 @@ const RecipeDetails = ({ params }) => {
         setRecipe(data);
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     };
 
     getRecipe();
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [loading]);
 
   const contentStyle: React.CSSProperties = {
     height: "160px",
@@ -55,67 +59,73 @@ const RecipeDetails = ({ params }) => {
 
   return (
     <>
-      <Card className="w-auto h-auto mx-auto text-center">
-        <Row justify="space-between">
-          <LeftCircleFilled
-            className="absolute top-0 left-0 m-4 text-5xl"
-            onClick={() => {
-              router.back();
-            }}
-          />
-          <SettingOutlined className="absolute top-0 right-0 m-4 text-5xl" />
-        </Row>
-        <Title level={1}>{recipe.title}</Title>
-        <Carousel arrows className="text-black">
-          {recipe.image_url.map((image, index) => (
-            <div key={index}></div>
-          ))}
-        </Carousel>
+      {loading && <Spin fullscreen tip="Generating recipe..." />}
 
-        <Row gutter={16}>
-          {recipe.image_url.map((image, index) => (
-            <Col span={6} key={index} className="gutter-row">
-              <Card
-                hoverable
-                cover={<Image src={image} alt="image" />}
-                loading={loading}
+      {!loading && (
+        <>
+          <Card className="w-auto h-auto mx-auto text-center">
+            <Row justify="space-between">
+              <LeftCircleFilled
+                className="absolute top-0 left-0 m-4 text-5xl"
+                onClick={() => {
+                  router.back();
+                }}
               />
-            </Col>
-          ))}
-        </Row>
-      </Card>
-      <Card>
-        <Body>
-          <Row justify="space-between">
-            <Title level={3} className="text-center">
-              Recipe
-            </Title>
-            <Button
-              type="primary"
-              className="absolute top-0 right-0 m-2"
-              onClick={() => {
-                router.push(`/story`);
-              }}
-            >
-              Start Story
-            </Button>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Title level={4}>Ingredients</Title>
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+              <SettingOutlined className="absolute top-0 right-0 m-4 text-5xl" />
+            </Row>
+            <Title level={1}>{recipe.title}</Title>
+            <Carousel arrows className="text-black">
+              {recipe.image_url.map((image, index) => (
+                <div key={index}></div>
               ))}
-            </Col>
-            <Col span={12}>
-              <Title level={4}>Instructions</Title>
-              {recipe.instructions.map((instruction, index) => (
-                <li key={index}>{instruction}</li>
+            </Carousel>
+
+            <Row gutter={16}>
+              {recipe.image_url.map((image, index) => (
+                <Col span={6} key={index} className="gutter-row">
+                  <Card
+                    hoverable
+                    cover={<Image src={image} alt="image" />}
+                    loading={loading}
+                  />
+                </Col>
               ))}
-            </Col>
-          </Row>
-        </Body>
-      </Card>
+            </Row>
+          </Card>
+          <Card>
+            <Body>
+              <Row justify="space-between">
+                <Title level={3} className="text-center">
+                  Recipe
+                </Title>
+                <Button
+                  type="primary"
+                  className="absolute top-0 right-0 m-2"
+                  onClick={() => {
+                    router.push(`/story`);
+                  }}
+                >
+                  Start Story
+                </Button>
+              </Row>
+              <Row>
+                <Col span={12}>
+                  <Title level={4}>Ingredients</Title>
+                  {recipe.ingredients.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li>
+                  ))}
+                </Col>
+                <Col span={12}>
+                  <Title level={4}>Instructions</Title>
+                  {recipe.instructions.map((instruction, index) => (
+                    <li key={index}>{instruction}</li>
+                  ))}
+                </Col>
+              </Row>
+            </Body>
+          </Card>
+        </>
+      )}
     </>
   );
 };

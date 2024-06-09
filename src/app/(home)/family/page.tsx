@@ -1,11 +1,18 @@
 "use client";
 
-import { Image } from "antd";
+import Image from "next/image";
 import DashboardSvg from "@/assets/onboarding.png";
+import { useRouter } from "next/navigation";
 
 const Family = () => {
+  const router = useRouter();
   return (
-    <Image src={DashboardSvg.src} alt="dashboard" width={1366} height={1024} />
+    <Image
+      src={DashboardSvg.src}
+      alt="dashboard"
+      fill={true}
+      onClick={() => router.push("/recipe")}
+    />
   );
 };
 

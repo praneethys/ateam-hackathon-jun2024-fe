@@ -4,8 +4,7 @@ export const Body = ({ children }: { children: any }) => {
   return (
     <div
       style={{
-        width: "80%",
-        backgroundColor: "#D9D9D9",
+        width: "100%",
         margin: "auto",
         padding: "16px 32px",
       }}

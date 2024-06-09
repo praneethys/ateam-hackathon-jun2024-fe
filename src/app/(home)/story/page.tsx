@@ -4,6 +4,8 @@ import Card from "antd/lib/card/Card";
 import { useEffect, useState } from "react";
 import { Body } from "@/components/body";
 import { Header } from "@/components/header";
+import CardComponent from "@/components/card";
+import { Button, Spin } from "antd/lib";
 
 const Recipe = () => {
   const recipeId = "f6d46ae8-8c78-472b-9f88-c1713acb72c2";
@@ -117,75 +119,81 @@ const Recipe = () => {
     setIsPlaying(!isPlaying);
   };
 
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [loading]);
+
   if (!recipeText || !audioBuffer || !nutritionFacts || !image || !title) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Card className="align-center">
-      <Header>
-        <div style={{ margin: "auto", fontSize: "32px", width: "fit-content" }}>
-          {title}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            height: "280px",
-            borderRadius: "22px",
-            marginTop: "16px",
-          }}
-        >
-          <div
-            style={{
-              width: "280px",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundImage: `url(${image})`,
-              borderRadius: "22px 0px 0px 22px",
-            }}
-          />
-          <div
-            style={{
-              // display: "flex",
-              // flexDirection: "column",
-              // justifyContent: "center",
-              width: "100%",
-              padding: "12px 22px",
-            }}
-          >
-            <div style={{ fontWeight: 600 }}>NUTRITIONAL FACT:</div>
-            {nutritionFacts}
-          </div>
-        </div>
-      </Header>
-      <Body>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ fontSize: 20, fontWeight: 600 }}>
-            {recipeText.title}
-          </div>
-          <div
-            style={{
-              borderRadius: "12px",
-              backgroundColor: "#199DC7",
-              padding: "8px 12px",
-              color: "white",
-              cursor: "pointer",
-              fontWeight: 400,
-            }}
-            onClick={togglePlay}
-          >
-            {isPlaying ? "STOP" : "PLAY"}
-          </div>
-        </div>
-        <p style={{ marginTop: "12px" }}>{recipeText.story}</p>
-      </Body>
-    </Card>
+    <>
+      {loading && <Spin fullscreen tip="Generating an interesting story..." />}
+
+      {!loading && (
+        <Card className="align-center">
+          <Header>
+            <div
+              style={{ margin: "auto", fontSize: "32px", width: "fit-content" }}
+            >
+              {title}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                height: "280px",
+                borderRadius: "22px",
+                marginTop: "16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "280px",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundImage: `url(${image})`,
+                  borderRadius: "22px 0px 0px 22px",
+                }}
+              />
+              <div
+                style={{
+                  // display: "flex",
+                  // flexDirection: "column",
+                  // justifyContent: "center",
+                  width: "100%",
+                  padding: "12px 22px",
+                }}
+              >
+                <div style={{ fontWeight: 600 }}>NUTRITIONAL FACT:</div>
+                {nutritionFacts}
+              </div>
+            </div>
+          </Header>
+          <Body>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ fontSize: 20, fontWeight: 600 }}>
+                {recipeText.title}
+              </div>
+
+              <Button type="primary" onClick={togglePlay}>
+                {isPlaying ? "STOP" : "PLAY"}
+              </Button>
+            </div>
+            <p style={{ marginTop: "12px" }}>{recipeText.story}</p>
+          </Body>
+        </Card>
+      )}
+    </>
   );
 };
 
