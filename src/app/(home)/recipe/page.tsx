@@ -6,6 +6,10 @@ import Meta from "antd/lib/card/Meta";
 import { useEffect, useState } from "react";
 import { Image } from "antd";
 import Flex from "antd/lib/flex";
+import CardComponent from "@/components/card";
+import { Col, Row } from "antd/lib";
+import Title from "antd/es/typography/Title";
+import { useRouter } from "next/navigation";
 
 type Recipe = {
   title: string;
@@ -17,6 +21,17 @@ type Recipe = {
 
 const Recipe = () => {
   const [recipeList, setRecipeList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe>({
+    title: "",
+    ingredients: "",
+    instructions: "",
+    image_url: "",
+    recipe_uuid: "",
+  });
+
+  const router = useRouter();
+
   useEffect(() => {
     const getRecipeList = async () => {
       try {
@@ -28,33 +43,46 @@ const Recipe = () => {
         setRecipeList(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     getRecipeList();
   }, []);
 
-  return (
-    <>
-      <Flex align="center" justify="space-evenly">
-        {recipeList.map((recipe: Recipe) => (
-          <Card
-            key={recipe.recipe_uuid}
-            hoverable
-            style={{ width: 240 }}
-            cover={<Image alt="example" src={recipe.image_url} />}
-          >
-            <Meta title={recipe.title} />
-          </Card>
-        ))}
-      </Flex>
+  useEffect(() => {
+    if (selectedRecipe) {
+      router.push(`/recipe/${selectedRecipe.recipe_uuid}`);
+    }
+  }, [router, selectedRecipe]);
 
-      <Flex align="center" justify="space-evenly" className="mt-4">
-        <Button type="primary" size="large">
-          Generate Recipe
-        </Button>
-      </Flex>
-    </>
+  return (
+    <CardComponent>
+      <Row justify="space-evenly">
+        <Title level={1}>Time for Breakfast!</Title>
+        <Row gutter={16}>
+          {recipeList.map((recipe: Recipe, index) => (
+            <Col span={8} key={index} className="gutter-row">
+              <Card
+                hoverable
+                cover={<Image alt="example" src={recipe.image_url} />}
+                loading={loading}
+                onClick={() => setSelectedRecipe(recipe)}
+              >
+                <Meta title={recipe.title} />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
+        <Flex align="center" justify="space-evenly" className="mt-4">
+          <Button type="primary" size="large">
+            Generate Recipe
+          </Button>
+        </Flex>
+      </Row>
+    </CardComponent>
   );
 };
 

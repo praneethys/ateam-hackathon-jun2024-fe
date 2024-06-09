@@ -3,7 +3,6 @@
 import { Layout } from "antd";
 import { Header } from "antd/lib/layout/layout";
 import BackgroundSvg from "@/assets/background.svg";
-import Typography from "antd/lib/typography";
 import { Flex } from "antd/lib";
 import { Content, Footer } from "antd/es/layout/layout";
 import Card from "antd/lib/card/Card";
@@ -20,7 +19,13 @@ const RecipeLayout = ({ children }: { children: React.ReactNode }) => {
         </Flex>
       </Header>
       <Content>
-        <Card style={{ height: `calc(100vh - 128px)`, overflow: "auto" }}>
+        <Card
+          style={{
+            height: `calc(100vh - 128px)`,
+            overflow: "auto",
+            background: `url(${BackgroundSvg.src})`,
+          }}
+        >
           {children}
         </Card>
       </Content>
