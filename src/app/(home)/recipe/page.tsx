@@ -11,22 +11,22 @@ import { Col, Row } from "antd/lib";
 import Title from "antd/es/typography/Title";
 import { useRouter } from "next/navigation";
 
-type Recipe = {
+export type RecipeType = {
   title: string;
-  ingredients: string;
-  instructions: string;
-  image_url: string;
+  ingredients: [string];
+  instructions: [string];
+  image_url: [string];
   recipe_uuid: string;
 };
 
 const Recipe = () => {
   const [recipeList, setRecipeList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe>({
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeType>({
     title: "",
-    ingredients: "",
-    instructions: "",
-    image_url: "",
+    ingredients: [""],
+    instructions: [""],
+    image_url: [""],
     recipe_uuid: "",
   });
 
@@ -62,11 +62,11 @@ const Recipe = () => {
       <Row justify="space-evenly">
         <Title level={1}>Time for Breakfast!</Title>
         <Row gutter={16}>
-          {recipeList.map((recipe: Recipe, index) => (
+          {recipeList.map((recipe: RecipeType, index) => (
             <Col span={8} key={index} className="gutter-row">
               <Card
                 hoverable
-                cover={<Image alt="example" src={recipe.image_url} />}
+                cover={<Image alt="example" src={recipe.image_url[0]} />}
                 loading={loading}
                 onClick={() => setSelectedRecipe(recipe)}
               >
