@@ -15,7 +15,7 @@ const RecipeLayout = ({ children }: { children: React.ReactNode }) => {
         className="h-16"
       >
         <Flex align="center" justify="flex-end">
-          <h3 className="font-bold">Bus arrives in 14 min</h3>
+          <h3 className="font-bold text-3xl">Bus arrives in 14 min</h3>
         </Flex>
       </Header>
       <Content>
